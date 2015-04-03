@@ -86,16 +86,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE;$(Z_LIB_Z));%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE;$(Z_LIB_Z);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(Z_LIB_Z);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(OPENCV_LIB_HIGHGUI);$(OPENCV_LIB_CALIB3D);$(OPENCV_LIB_IMGPROC);$(JPEG_TURBO_LIB_JPEG);$(TIFF_LIB_TIFF);$(PNG_LIB_PNG);$(JASPER_LIB_JASPER);$(JBIG_LIB_JBIG);$(Z_LIB_Z);$(OPENEXR_LIB_OPENEXR);opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,7 +98,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(OPENCV_LIB_HIGHGUI);$(OPENCV_LIB_CALIB3D);$(OPENCV_LIB_IMGPROC);$(JPEG_TURBO_LIB_JPEG);$(TIFF_LIB_TIFF);$(PNG_LIB_PNG);$(JASPER_LIB_JASPER);$(JBIG_LIB_JBIG);$(Z_LIB_Z);$(OPENEXR_LIB_OPENEXR);opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(OPENCV_LIB_HIGHGUI);$(OPENCV_LIB_CALIB3D);$(OPENCV_LIB_IMGPROC);$(JPEG_TURBO_LIB_JPEG);$(TIFF_LIB_TIFF);$(PNG_LIB_PNG);$(JASPER_LIB_JASPER);$(JBIG_LIB_JBIG);$(Z_LIB_Z);$(OPENEXR_LIB_OPENEXR);opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,7 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(OPENCV_LIB_HIGHGUI);$(OPENCV_LIB_CALIB3D);$(OPENCV_LIB_IMGPROC);$(JPEG_TURBO_LIB_JPEG);$(TIFF_LIB_TIFF);$(PNG_LIB_PNG);$(JASPER_LIB_JASPER);$(JBIG_LIB_JBIG);$(Z_LIB_Z);$(OPENEXR_LIB_OPENEXR);opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,7 +130,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(OPENCV_LIB_HIGHGUI);$(OPENCV_LIB_CALIB3D);$(OPENCV_LIB_IMGPROC);$(JPEG_TURBO_LIB_JPEG);$(TIFF_LIB_TIFF);$(PNG_LIB_PNG);$(JASPER_LIB_JASPER);$(JBIG_LIB_JBIG);$(Z_LIB_Z);$(OPENEXR_LIB_OPENEXR);opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
