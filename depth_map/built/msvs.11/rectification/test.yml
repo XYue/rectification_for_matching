@@ -1,0 +1,43 @@
+%YAML:1.0
+filename_l: "D:\\struct_lib_code\\Normal\\test\\simple_test\\simple_test\\2_20.jpg"
+filename_r: "D:\\struct_lib_code\\Normal\\test\\simple_test\\simple_test\\1_20.jpg"
+R_r: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ -1, -2.29453289648518e-005, -5.19905697728973e-005, 2.29453289648518e-005, -1, 4.41993688582443e-005, -5.19905697728973e-005, 4.41993688582443e-005, 1 ]
+C_r: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [ -0.000321138569156962,0.000330422370297623,-0.00020064284155379 ]
+R_l: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [-0.997205972671509, -0.0564890988171101, 0.048880148679018, 0.0559801869094372, -0.998363077640533, -0.0117197344079614, 0.0494621768593788, -0.00895066745579243, 0.998735904693604]
+C_l: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [ -0.194295938564434,0.976869474560766,-0.0846718320062413 ]
+M_l: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 1538.46201171875, 0, 600, 0, 1538.46201171875, 400, 0, 0, 1 ]
+D_l: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [0,0,0,0,0]   
+M_r: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 1538.46201171875, 0, 600, 0, 1538.46201171875, 400, 0, 0, 1 ]
+D_r: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [0,0,0,0,0]   

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B5BA10BB-A3F1-4C15-B2D0-5097196347CA}</ProjectGuid>
+    <RootNamespace>rectification</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\built_recitification.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\built_recitification.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\built_recitification.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\built_recitification.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\..\src\rectification\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE;$(Z_LIB_Z));%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE;$(Z_LIB_Z);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(Z_LIB_Z);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\..\src\rectification\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_CORE);$(OPENCV_LIB_HIGHGUI);$(OPENCV_LIB_CALIB3D);$(OPENCV_LIB_IMGPROC);$(JPEG_TURBO_LIB_JPEG);$(TIFF_LIB_TIFF);$(PNG_LIB_PNG);$(JASPER_LIB_JASPER);$(JBIG_LIB_JBIG);$(Z_LIB_Z);$(OPENEXR_LIB_OPENEXR);opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\..\src\rectification\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\..\src\rectification\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(NVIDIA_CUDA_LIB_NPPI);$(NVIDIA_CUDA_LIB_CUDA);$(NVIDIA_CUDA_LIB_CUDART);$(OPENCV_LIB_LIST);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\rectification\src\image_pair.cpp" />
+    <ClCompile Include="..\..\..\src\rectification\src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\rectification\header\image_pair.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
