@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{ce79df25-6a31-4525-857f-400aa1bd4b3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{435fedea-b1f7-44ef-888c-08c946021cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\daisy">
+      <UniqueIdentifier>{a0999e51-d544-423e-ad16-cc97c2540ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\kutility">
+      <UniqueIdentifier>{acc95b42-b769-4fe6-8d74-7203dc29dc53}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\daisy\src\image_io_png.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\image_io_pnm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\image_manipulation.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\interaction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\progress_bar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\corecv.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\daisy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\general.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\image_io_bmp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\daisy\src\image_io_jpeg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\general.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image_io.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image_io_bmp.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image_io_jpeg.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image_io_png.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image_io_pnm.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\image_manipulation.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\interaction.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\math.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\progress_bar.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\convolution.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\convolution_default.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\convolution_opencv.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\corecv.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\kutility\fileio.h">
+      <Filter>inc\kutility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\daisy\inc\daisy\daisy.h">
+      <Filter>inc\daisy</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\daisy\inc\kutility\kutility.def">
+      <Filter>inc\kutility</Filter>
+    </None>
+    <None Include="..\..\..\src\daisy\inc\kutility\fileio.tcc">
+      <Filter>inc\kutility</Filter>
+    </None>
+  </ItemGroup>
+</Project>
