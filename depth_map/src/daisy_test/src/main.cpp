@@ -388,10 +388,14 @@ int main( int argc, char **argv  )
 	   int thq   =  8;
 	   int histq =  8;
 
-	   int yl = 500/*304*//*1520*/;
-	   int xl = 500/*682*//*3411*/;
+	   int yl = 472 /*613*//*304*//*1520*/;
+	   int xl = 530/*1864*//*682*//*3411*/;
 	  // int yr = 435;
 	   int xr = xl;
+
+	   double pi = 3.14159265358979323846;
+	   double sigma = 0.2;
+	   double Z = 1. / (sqrt(2. * pi) * sigma);
 
 	   do 
 	   {
@@ -423,9 +427,9 @@ int main( int argc, char **argv  )
 
 		  
 		   int num_desc = desc_l->descriptor_size();
-		   float min_diff = std::numeric_limits<float>::max();
+		   float min_diff = std::numeric_limits<float>::min();
 		   int min_diff_yid = -1;
-		   float second_min_diff = std::numeric_limits<float>::max();
+		   float second_min_diff = std::numeric_limits<float>::min();
 		   int sec_min_diff_yid = -1;
 
 		   for (int i_h = 0; i_h < h; ++i_h)
@@ -433,21 +437,22 @@ int main( int argc, char **argv  )
 			   float* thor_r = NULL;
 			   desc_r->get_descriptor(/*yr*/i_h,xr,thor_r);
 
-			   float diff = 0.;
+			   double diff = 0.;
 			   for (int i_d = 0; i_d < num_desc; ++i_d)
 			   {
 				   diff += (thor_l[i_d] - thor_r[i_d]) * (thor_l[i_d] - thor_r[i_d]);
 			   }
-			   diff = sqrt(diff);
+			   //diff = sqrt(diff);
+			   diff = 1./Z * exp( -1. * diff / (2. * sigma * sigma));
 
-			   if (diff < min_diff)
+			   if (diff > min_diff)
 			   {
 				   second_min_diff = min_diff;
 				   sec_min_diff_yid = min_diff_yid;
 
 				   min_diff = diff;
 				   min_diff_yid = i_h;
-			   } else if (diff < second_min_diff) {
+			   } else if (diff > second_min_diff) {
 				   second_min_diff = diff;
 				   sec_min_diff_yid = i_h;
 			   }
