@@ -156,6 +156,23 @@ error0:
 			imwrite(file_prefix + "_right.jpg", rectified_right);
 
 
+			double m[3] = {463,641,1};
+			cv::Mat xy(3,1,R1.type(), m);
+			cv::Mat K_n(3,3,R1.type());
+			cv::Mat K(3,3,R1.type());
+			_left_image._CamMatrix.convertTo(K, K.type());
+			P1.col(0).copyTo(K_n.col(0));
+			P1.col(1).copyTo(K_n.col(1));
+			P1.col(2).copyTo(K_n.col(2));
+			xy = K_n.inv() * xy;
+			xy = R1.inv() * xy;
+			xy /= xy.at<double>(2);
+			xy = K * xy;
+			std::cout<<K_n << std::endl;
+			std::cout<<K << std::endl;
+			std::cout<<xy<<std::endl;
+
+
 			ret = 0;
 		} while (0);
 error0:

@@ -3,7 +3,6 @@
 
     <PropertyGroup>
         <OPENCV_CONFIG_LINK>static</OPENCV_CONFIG_LINK>
-        <OPENCV_CONFIG_RUNTIME_LINK>shared</OPENCV_CONFIG_RUNTIME_LINK>
     </PropertyGroup>
     
     <ImportGroup Label="PropertySheets">

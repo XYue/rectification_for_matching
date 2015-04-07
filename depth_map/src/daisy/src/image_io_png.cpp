@@ -40,6 +40,7 @@
 
 #ifdef WITH_PNG
 
+#include <zlib.h>
 #include "kutility/image_io_png.h"
 
 #ifndef png_jmpbuf
@@ -70,14 +71,14 @@ namespace kutility
       if (info_ptr == NULL)
       {
          fclose(fp);
-         png_destroy_read_struct(&png_ptr, png_infopp_NULL, png_infopp_NULL);
+         png_destroy_read_struct(&png_ptr, /*png_infopp_NULL*/NULL, /*png_infopp_NULL*/NULL);
          return 1;
       }
 
       if (setjmp(png_jmpbuf(png_ptr)))
       {
          /* Free all of the memory associated with the png_ptr and info_ptr */
-         png_destroy_read_struct(&png_ptr, &info_ptr, png_infopp_NULL);
+         png_destroy_read_struct(&png_ptr, &info_ptr, /*png_infopp_NULL*/NULL);
          fclose(fp);
          /* If we get here, we had a problem reading the file */
          return 1;
@@ -90,7 +91,7 @@ namespace kutility
       /* If we have already read some of the signature */
       png_set_sig_bytes(png_ptr, sig_read);
 
-      png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, png_voidp_NULL);
+      png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, /*png_voidp_NULL*/NULL);
       /* At this point you have read the entire image */
 
       png_bytep* row_pointers = png_get_rows(png_ptr, info_ptr);
@@ -107,7 +108,7 @@ namespace kutility
       }
 
       /* clean up after the read, and free any memory allocated - REQUIRED */
-      png_destroy_read_struct(&png_ptr, &info_ptr, png_infopp_NULL);
+      png_destroy_read_struct(&png_ptr, &info_ptr, /*png_infopp_NULL*/NULL);
 
       /* close the file */
       fclose(fp);
@@ -130,7 +131,7 @@ namespace kutility
       wpng_info.gamma = 0.0;
       wpng_info.channel_no = chl;
 
-      ulong rowbytes;
+      /*ulong*/unsigned long rowbytes;
       int rc;
       int error = 0;
 
