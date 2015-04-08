@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <PropertyGroup>
+        <EIGEN_CONFIG_LINK>static</EIGEN_CONFIG_LINK>
         <OPENCV_CONFIG_LINK>static</OPENCV_CONFIG_LINK>
         <OPENCV_CONFIG_RUNTIME_LINK>shared</OPENCV_CONFIG_RUNTIME_LINK>
     </PropertyGroup>
@@ -10,6 +11,9 @@
       <Import
 	    	Project="..\..\..\..\..\..\Shared\opencv\kit\opencv_latest.props"
 	    	Condition="'$(OPENCV_IMPORT)'!='true'" />
+      <Import
+            Project="..\..\..\..\..\..\Shared\eigen\kit\eigen_latest.props"
+            Condition="'$(EIGEN_IMPORT)'!='true'" />
     </ImportGroup>
     
 </Project>

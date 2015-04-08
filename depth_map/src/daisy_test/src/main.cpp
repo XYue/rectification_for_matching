@@ -388,14 +388,14 @@ int main( int argc, char **argv  )
 	   int thq   =  8;
 	   int histq =  8;
 
-	   int yl = 472 /*613*//*304*//*1520*/;
-	   int xl = 530/*1864*//*682*//*3411*/;
+	   int yl = 1295/*613*//*304*//*1520*/;
+	   int xl = 1865/*1864*//*682*//*3411*/;
 	  // int yr = 435;
 	   int xr = xl;
 
 	   double pi = 3.14159265358979323846;
-	   double sigma = 0.2;
-	   double Z = 1. / (sqrt(2. * pi) * sigma);
+	   double sigma_2 = 0.2;
+	   double Z = 1. / sqrt(2. * pi * sigma_2);
 
 	   do 
 	   {
@@ -427,10 +427,14 @@ int main( int argc, char **argv  )
 
 		  
 		   int num_desc = desc_l->descriptor_size();
-		   float min_diff = std::numeric_limits<float>::min();
-		   int min_diff_yid = -1;
-		   float second_min_diff = std::numeric_limits<float>::min();
-		   int sec_min_diff_yid = -1;
+		   float max_probability = std::numeric_limits<float>::min();
+		   int max_probability_yid = -1;
+		   float second_max_probability = std::numeric_limits<float>::min();
+		   int sec_max_probability_yid = -1;
+		   double min_diff = std::numeric_limits<double>::max();
+
+		   double tmp_min_diff = std::numeric_limits<double>::max();
+		   int tmp_yid = -1;
 
 		   for (int i_h = 0; i_h < h; ++i_h)
 		   {
@@ -443,27 +447,40 @@ int main( int argc, char **argv  )
 				   diff += (thor_l[i_d] - thor_r[i_d]) * (thor_l[i_d] - thor_r[i_d]);
 			   }
 			   //diff = sqrt(diff);
-			   diff = 1./Z * exp( -1. * diff / (2. * sigma * sigma));
+			   double probability = 1./Z * exp( -1. * diff / (2. * sigma_2));
 
-			   if (diff > min_diff)
+			   if (diff < tmp_min_diff)
 			   {
-				   second_min_diff = min_diff;
-				   sec_min_diff_yid = min_diff_yid;
+				   tmp_min_diff = diff;
+				   tmp_yid = i_h;
+			   }
+
+			   if (probability > max_probability)
+			   {
+				   second_max_probability = max_probability;
+				   sec_max_probability_yid = max_probability_yid;
+
+				   max_probability = probability;
+				   max_probability_yid = i_h;
 
 				   min_diff = diff;
-				   min_diff_yid = i_h;
-			   } else if (diff > second_min_diff) {
-				   second_min_diff = diff;
-				   sec_min_diff_yid = i_h;
+			   } else if (probability > second_max_probability) {
+				   second_max_probability = probability;
+				   sec_max_probability_yid = i_h;
 			   }
 		   }	  
 
 
-		   std::cout<<"diff = "<<min_diff
-			   <<" , yid = "<<min_diff_yid<<std::endl;
-		   std::cout<<"second diff = "<<second_min_diff
-			   <<" , yid = "<<sec_min_diff_yid<<std::endl;
-		   std::cout<<min_diff/second_min_diff  <<std::endl;
+		   std::cout<<"diff = "<<min_diff<<std::endl;
+		   std::cout<<"diff = "<<max_probability
+			   <<" , yid = "<<max_probability_yid<<std::endl;
+		   std::cout<<"second diff = "<<second_max_probability
+			   <<" , yid = "<<sec_max_probability_yid<<std::endl;
+		   std::cout<<max_probability/second_max_probability <<std::endl;
+
+		   std::cout<<std::endl;
+		   std::cout<<"test"<<std::endl;
+		   std::cout<<tmp_min_diff<<" "<<tmp_yid<<std::endl;
 
 	   } while (0);
 	  

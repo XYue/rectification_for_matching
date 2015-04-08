@@ -34,6 +34,9 @@ namespace rect
 		// write down rectified image pair	
 		int SaveRectifiedPair(std::string file_prefix);
 
+		// simple dense method
+		int SimpleDaisyDense(bool save_disparity = false);
+
 	protected:
 		// validates the parameters of image pair
 		// 0 successful; otherwise, failed.

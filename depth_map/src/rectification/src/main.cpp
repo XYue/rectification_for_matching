@@ -27,7 +27,11 @@ int main(int _argc, char ** _argv)
 	
 	std::string yaml_filename = _argv[1];
 	rect::ImagePair pair(yaml_filename);
-	pair.SaveRectifiedPair("test");
+	//pair.SaveRectifiedPair("test");
+	if (pair.SimpleDaisyDense())
+	{
+		std::cout<<"failed."<<std::endl;
+	}
 
 	std::cout<<"rectification."<<std::endl;
 	return EXIT_SUCCESS;

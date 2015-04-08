@@ -1,6 +1,6 @@
 %YAML:1.0
-filename_l: "D:\\struct_lib_code\\Normal\\test\\simple_test\\simple_test\\2_20.jpg"
-filename_r: "D:\\struct_lib_code\\Normal\\test\\simple_test\\simple_test\\1_20.jpg"
+filename_l: "2_20.jpg"
+filename_r: "1_20.jpg"
 R_r: !!opencv-matrix
    rows: 3
    cols: 3
