@@ -220,8 +220,10 @@ error0:
 			bool is_vertical_rectified = false;
 			bool output_with_colour = true;
 			bool output_with_world_coor = true;
-			double coarse_scale = 1./8.;
-			std::vector<int> coarse_match_map;		
+			double coarse_scale = 1./*1./8.*/;
+			std::vector<int> coarse_match_map;	
+			int coarse_w = 0;
+			int coarse_h = 0;
 
 			if (output_with_world_coor)
 			{
@@ -327,10 +329,14 @@ error0:
 			{
 				std::string tmp_coarse_filename_l = "tmp_coarse_l.jpg";
 				std::string tmp_coarse_filename_r = "tmp_coarse_r.jpg";
-				
+								
 				cv::Mat left = cv::imread(rect_l);
 				cv::Mat right = cv::imread(rect_r);
-				cv::Size new_size(left.cols * coarse_scale, left.rows * coarse_scale);
+				int ori_w = left.cols;
+				int ori_h = left.rows;
+				coarse_w = left.cols * coarse_scale;
+				coarse_h = left.rows * coarse_scale;				
+				cv::Size new_size(coarse_w, coarse_h);
 				cv::Mat left_coarse(new_size, left.type()), right_coarse(new_size, right.type());
 				cv::resize(left, left_coarse, new_size);
 				cv::resize(right, right_coarse, new_size);
@@ -341,7 +347,7 @@ error0:
 				left_coarse.release();
 				right_coarse.release();
 
-				coarse_match_map.resize(new_size.width * new_size.height,0);
+				coarse_match_map.resize(coarse_w * coarse_h,-1);
 
 
 				int w, h;
@@ -385,8 +391,8 @@ error0:
 							valid_xy /= valid_xy(2);
 							valid_xy = Kl * valid_xy;
 
-							if (valid_xy(0) < 0. || valid_xy(0) >= w ||
-								valid_xy(1) < 0. || valid_xy(1) >= h)
+							if (valid_xy(0) < 0. || valid_xy(0) >= ori_w ||
+								valid_xy(1) < 0. || valid_xy(1) >= ori_h)
 							{
 								continue;
 							}
@@ -418,8 +424,8 @@ error0:
 								xy_r /= xy_r(2);
 								xy_r = Kr * xy_r;
 
-								if (xy_r(0) < 0. || xy_r(0) >= w ||
-									xy_r(1) < 0. || xy_r(1) >= h)
+								if (xy_r(0) < 0. || xy_r(0) >= ori_w ||
+									xy_r(1) < 0. || xy_r(1) >= ori_h)
 								{
 									continue;
 								}
@@ -538,6 +544,20 @@ error0:
 						for (int i_xl = 0; i_xl < w; ++i_xl)
 						{
 							Eigen::Vector3d xy_l(i_xl, i_yl, 1);
+
+
+							int coarse_mapping_id = -1;
+							if (coarse_scale > 0. && coarse_scale < 1. &&
+								coarse_match_map.size() == coarse_w * coarse_h &&
+								coarse_match_map.size() > 0)
+							{
+								int map_x_id = i_xl * coarse_scale;
+								int map_y_id = i_yl * coarse_scale;
+								coarse_mapping_id = coarse_match_map[map_y_id * coarse_w + map_x_id ];
+								if (coarse_mapping_id < 0) continue;
+							}
+
+
 							Eigen::Vector3d valid_xy = xy_l;
 							valid_xy = Rl.transpose() * Kl_n.inverse() * valid_xy;
 							valid_xy /= valid_xy(2);
@@ -559,13 +579,19 @@ error0:
 							float* thor_l = NULL;
 							desc_l->get_descriptor(i_yl,i_xl,thor_l);
 							int dim_num = is_vertical_rectified ? h : w;
+							int start_dim = coarse_mapping_id >= 0 ? 
+								static_cast<double>(coarse_mapping_id - 1) / coarse_scale : 0;
+							start_dim = start_dim >=0 ? start_dim : 0;
+							int end_dim = coarse_mapping_id >= 0 ?
+								static_cast<double>(coarse_mapping_id + 2) / coarse_scale : dim_num;
+							end_dim = end_dim < dim_num ? end_dim : dim_num;
 
 #ifdef USE_OPENMP
 							omp_lock_t writelock;
 							omp_init_lock(&writelock);
 #pragma omp parallel for							
 #endif // USE_OPENMP
-							for (int i_dim = 0; i_dim < dim_num; ++i_dim)
+							for (int i_dim = start_dim; i_dim < end_dim; ++i_dim)
 							{
 								int xr = is_vertical_rectified ? xy_l(0) : i_dim;
 								int yr = is_vertical_rectified ? i_dim : xy_l(1);
