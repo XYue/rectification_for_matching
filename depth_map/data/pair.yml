@@ -1,0 +1,47 @@
+%YAML:1.0
+filename_l: "D:\\struct_lib_code\\GitHub\\rectification_for_matching\\depth_map\\data\\770_125.jpg"
+filename_r: "D:\\struct_lib_code\\GitHub\\rectification_for_matching\\depth_map\\data\\833_125.jpg"
+
+R_l: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [0.819949984550476,-0.565592169761658,-0.0882512703537941,0.465428531169891,0.748455464839935,-0.472430825233459,0.333255231380463,0.346294909715652,0.87693852186203]
+C_l: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [ -2.46121709117145,0.569124840781517,0.297189886789822]
+
+R_r: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ -0.976180791854858,0.141550242900848,0.164419919252396,-0.145374640822411,-0.989311516284943,-0.0114016328006983,0.16104844212532,-0.0350325368344784,0.986324667930603]
+C_r: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [ -1.379274089066,-2.91350645307808,0.654298810011559 ]
+   
+M_l: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 961.53875732421875, 0, 375, 0, 961.53875732421875, 250, 0, 0, 1 ]
+D_l: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [0,0,0,0,0]   
+
+M_r: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 961.53875732421875, 0, 375, 0, 961.53875732421875, 250, 0, 0, 1 ]
+D_r: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [0,0,0,0,0]   

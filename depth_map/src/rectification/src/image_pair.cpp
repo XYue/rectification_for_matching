@@ -212,22 +212,43 @@ error0:
 		do 
 		{
 			Eigen::Matrix3d Rl, Rr, Kl, Kr, Kl_n, Kr_n;
+			Eigen::Matrix3d R_left_inverse;
+			Eigen::Vector3d C_left;
 			std::string rect_l = "_left.jpg";
 			std::string rect_r = "_right.jpg";
-			std::string pc_filename = "pc.xyz";
+			std::string pc_filename = "pc.off";
 			bool is_vertical_rectified = false;
-			double daisy_match_threshold = 0.8;
-			int best_match_id_dist_threshold = 2;
+			bool output_with_colour = true;
+			bool output_with_world_coor = true;
+			double coarse_scale = 1./8.;
+			std::vector<int> coarse_match_map;		
 
+			if (output_with_world_coor)
+			{
+				R_left_inverse = Eigen::Map<Eigen::MatrixXd>(
+					reinterpret_cast<double*>(_left_image._R.data),
+					_left_image._R.rows,
+					_left_image._R.cols).transpose();
+				C_left = Eigen::Map<Eigen::MatrixXd>(
+					reinterpret_cast<double*>(_left_image._C.data),
+					_left_image._C.rows,
+					_left_image._C.cols);
+			}
+
+			// daisy 
 			int rad   = 15;
 			int radq  =  3;
 			int thq   =  8;
 			int histq =  8;
+
+			// matching
 			double pi = 3.14159265358979323846;
 			double sigma_2 = 0.2;
 			double Z = 1. / sqrt(2. * pi * sigma_2);
 			double focal_l = _left_image._CamMatrix.at<double>(0,0);
 			double baseline_len = sqrt(norm(_left_image._C - _right_image._C));
+			double daisy_match_threshold = 1.;
+			int best_match_id_dist_threshold = 2;
 
 			// recitify image pair
 			{
@@ -301,19 +322,38 @@ error0:
 			}
 
 
-			// generate dense point cloud
+			// coarse matching
+			if (coarse_scale < 1. && coarse_scale > 0.)
 			{
-				int w,h;
+				std::string tmp_coarse_filename_l = "tmp_coarse_l.jpg";
+				std::string tmp_coarse_filename_r = "tmp_coarse_r.jpg";
+				
+				cv::Mat left = cv::imread(rect_l);
+				cv::Mat right = cv::imread(rect_r);
+				cv::Size new_size(left.cols * coarse_scale, left.rows * coarse_scale);
+				cv::Mat left_coarse(new_size, left.type()), right_coarse(new_size, right.type());
+				cv::resize(left, left_coarse, new_size);
+				cv::resize(right, right_coarse, new_size);
+				left.release();
+				right.release();
+				cv::imwrite(tmp_coarse_filename_l, left_coarse);
+				cv::imwrite(tmp_coarse_filename_r, right_coarse);
+				left_coarse.release();
+				right_coarse.release();
+
+				coarse_match_map.resize(new_size.width * new_size.height,0);
+
+
+				int w, h;
 				uchar* im_l = NULL;
 				uchar* im_r = NULL;
 				daisy * desc_l = new daisy();
 				daisy * desc_r = new daisy();
 
-
 				bool dense_match = false;
 				do 
 				{
-					if (kutility::load_gray_image (rect_l, im_l, h, w))
+					if (kutility::load_gray_image (tmp_coarse_filename_l, im_l, h, w))
 						break;
 					desc_l->set_image(im_l,h,w);
 					desc_l->verbose( /*verbose_level*/0 ); // 0,1,2,3 -> how much output do you want while running
@@ -323,7 +363,7 @@ error0:
 					// the descriptors are not normalized yet
 					desc_l->normalize_descriptors();
 
-					if (kutility::load_gray_image (rect_r, im_r, h, w))
+					if (kutility::load_gray_image (tmp_coarse_filename_r, im_r, h, w))
 						break;
 					desc_r->set_image(im_r,h,w);
 					desc_r->verbose( /*verbose_level*/0 ); // 0,1,2,3 -> how much output do you want while running
@@ -333,18 +373,15 @@ error0:
 					// the descriptors are not normalized yet
 					desc_r->normalize_descriptors();
 
-
-					std::ofstream pc_file(pc_filename);
-					if (!pc_file.is_open()) break;
-					pc_file << std::setprecision(15);
-
+					
 					for (int i_yl = 0; i_yl < h; ++i_yl)
 					{
 						for (int i_xl = 0; i_xl < w; ++i_xl)
 						{
 							Eigen::Vector3d xy_l(i_xl, i_yl, 1);
-							Eigen::Vector3d valid_xy = xy_l;
-							valid_xy = Rl.inverse() * Kl_n.inverse() * valid_xy;
+							Eigen::Vector3d valid_xy((xy_l(0) + 0.5)/coarse_scale,
+								(xy_l(1) + 0.5)/coarse_scale, 1);
+							valid_xy = Rl.transpose() * Kl_n.inverse() * valid_xy;
 							valid_xy /= valid_xy(2);
 							valid_xy = Kl * valid_xy;
 
@@ -353,6 +390,7 @@ error0:
 							{
 								continue;
 							}
+
 
 							int num_desc = desc_l->descriptor_size();
 							double best_match = std::numeric_limits<double>::max();
@@ -374,8 +412,9 @@ error0:
 								int xr = is_vertical_rectified ? xy_l(0) : i_dim;
 								int yr = is_vertical_rectified ? i_dim : xy_l(1);
 
-								Eigen::Vector3d xy_r(xr, yr, 1);
-								xy_r = Rr.inverse() * Kr_n.inverse() * xy_r;
+								Eigen::Vector3d xy_r((xr + 0.5)/coarse_scale,
+									(yr+0.5)/coarse_scale, 1.);
+								xy_r = Rr.transpose() * Kr_n.inverse() * xy_r;
 								xy_r /= xy_r(2);
 								xy_r = Kr * xy_r;
 
@@ -432,9 +471,163 @@ error0:
 								if (ratio <= 0.8 ||
 									abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold)
 								{
-									// test
-									if (best_match_id >= xy_l(1)) continue;
+									coarse_match_map[xy_l(1) * w + xy_l(0)] = best_match_id;
+								}
+							}
 
+						}
+					}
+
+					dense_match = true;
+				} while (0);
+
+				deallocate(im_l);
+				deallocate(im_r);
+				if (desc_l) delete desc_l;
+				if (desc_r) delete desc_r;
+
+				if (!dense_match) break;
+			}
+
+
+			// generate dense point cloud
+			{
+				int w,h;
+				uchar* im_l = NULL;
+				uchar* im_r = NULL;
+				daisy * desc_l = new daisy();
+				daisy * desc_r = new daisy();
+				cv::Mat rectified_left;
+				if (output_with_colour)
+				{
+					rectified_left = cv::imread(rect_l);
+				}
+
+
+				bool dense_match = false;
+				do 
+				{
+					if (kutility::load_gray_image (rect_l, im_l, h, w))
+						break;
+					desc_l->set_image(im_l,h,w);
+					desc_l->verbose( /*verbose_level*/0 ); // 0,1,2,3 -> how much output do you want while running
+					desc_l->set_parameters(rad, radq, thq, histq); // default values are 15,3,8,8
+					desc_l->initialize_single_descriptor_mode();
+					desc_l->compute_descriptors(); // precompute all the descriptors (NOT NORMALIZED!)
+					// the descriptors are not normalized yet
+					desc_l->normalize_descriptors();
+
+					if (kutility::load_gray_image (rect_r, im_r, h, w))
+						break;
+					desc_r->set_image(im_r,h,w);
+					desc_r->verbose( /*verbose_level*/0 ); // 0,1,2,3 -> how much output do you want while running
+					desc_r->set_parameters(rad, radq, thq, histq); // default values are 15,3,8,8
+					desc_r->initialize_single_descriptor_mode();
+					desc_r->compute_descriptors(); // precompute all the descriptors (NOT NORMALIZED!)
+					// the descriptors are not normalized yet
+					desc_r->normalize_descriptors();
+
+
+					std::ofstream pc_file(pc_filename);
+					if (!pc_file.is_open()) break;
+					pc_file << std::setprecision(15);
+					pc_file << "COFF"<<std::endl;
+
+					for (int i_yl = 0; i_yl < h; ++i_yl)
+					{
+						for (int i_xl = 0; i_xl < w; ++i_xl)
+						{
+							Eigen::Vector3d xy_l(i_xl, i_yl, 1);
+							Eigen::Vector3d valid_xy = xy_l;
+							valid_xy = Rl.transpose() * Kl_n.inverse() * valid_xy;
+							valid_xy /= valid_xy(2);
+							valid_xy = Kl * valid_xy;
+
+							if (valid_xy(0) < 0. || valid_xy(0) >= w ||
+								valid_xy(1) < 0. || valid_xy(1) >= h)
+							{
+								continue;
+							}
+
+
+							int num_desc = desc_l->descriptor_size();
+							double best_match = std::numeric_limits<double>::max();
+							int best_match_id = -1;
+							double second_best_match = std::numeric_limits<double>::max();
+							int sec_best_match_id = -1;
+
+							float* thor_l = NULL;
+							desc_l->get_descriptor(i_yl,i_xl,thor_l);
+							int dim_num = is_vertical_rectified ? h : w;
+
+#ifdef USE_OPENMP
+							omp_lock_t writelock;
+							omp_init_lock(&writelock);
+#pragma omp parallel for							
+#endif // USE_OPENMP
+							for (int i_dim = 0; i_dim < dim_num; ++i_dim)
+							{
+								int xr = is_vertical_rectified ? xy_l(0) : i_dim;
+								int yr = is_vertical_rectified ? i_dim : xy_l(1);
+
+								Eigen::Vector3d xy_r(xr, yr, 1);
+								xy_r = Rr.transpose() * Kr_n.inverse() * xy_r;
+								xy_r /= xy_r(2);
+								xy_r = Kr * xy_r;
+
+								if (xy_r(0) < 0. || xy_r(0) >= w ||
+									xy_r(1) < 0. || xy_r(1) >= h)
+								{
+									continue;
+								}
+
+
+								float* thor_r = NULL;
+								desc_r->get_descriptor(yr,xr,thor_r);
+
+								double diff = 0.;
+								for (int i_d = 0; i_d < num_desc; ++i_d)
+								{
+									diff += (thor_l[i_d] - thor_r[i_d]) * (thor_l[i_d] - thor_r[i_d]);
+								}
+
+								if (diff < best_match)
+								{
+#ifdef USE_OPENMP
+									omp_set_lock(&writelock);			
+#endif // USE_OPENMP
+
+									second_best_match = best_match;
+									sec_best_match_id = best_match_id;
+
+									best_match = diff;
+									best_match_id = i_dim;
+
+#ifdef USE_OPENMP
+									omp_unset_lock(&writelock);			
+#endif // USE_OPENMP
+								} else if (diff < second_best_match) {
+#ifdef USE_OPENMP
+									omp_set_lock(&writelock);			
+#endif // USE_OPENMP
+									second_best_match = diff;
+									sec_best_match_id = i_dim;
+#ifdef USE_OPENMP
+									omp_unset_lock(&writelock);			
+#endif // USE_OPENMP
+								}
+							}
+#ifdef USE_OPENMP
+							omp_destroy_lock(&writelock);	
+#endif // USE_OPENMP
+
+							// disparity
+							if (best_match < daisy_match_threshold)
+							{
+								double ratio = best_match / second_best_match;
+								if (ratio <= 0.8 ||
+									abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold)
+								{
 									double disparity = is_vertical_rectified ?
 										best_match_id - xy_l(1) : best_match_id - xy_l(0);
 
@@ -443,12 +636,26 @@ error0:
 
 									double depth = focal_l * baseline_len / disparity;
 
-									Eigen::Vector3d img_world_pt = depth * Kl.inverse() * xy_l;
+									Eigen::Vector3d img_world_pt = depth * Kl_n.inverse() * xy_l;
+									img_world_pt = Rl.transpose() * img_world_pt;
+									if (output_with_world_coor)
+										img_world_pt = R_left_inverse * img_world_pt + C_left;
 									if (pc_file.good())
 									{
 										pc_file << img_world_pt(0) << " " <<
 											img_world_pt(1) << " " <<
-											img_world_pt(2) << std::endl;
+											img_world_pt(2);
+
+										if (output_with_colour)
+										{
+											cv::Vec3b color = rectified_left.at<cv::Vec3b>(cv::Point(xy_l(0),xy_l(1)));											
+											pc_file << " " << 
+												static_cast<int>(color[2])<< " " <<
+												static_cast<int>(color[1])  << " " <<
+												static_cast<int>(color[0])  << std::endl;
+										} else {
+											std::cout<<endl;
+										}
 									}
 								}
 							}

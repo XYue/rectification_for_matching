@@ -1,0 +1,489 @@
+<?xml version="1.0"?>
+<module_list>
+    <module_item>
+        <module_name>camera_calibrate</module_name>
+        <module_version>1.0</module_version>
+        <option_list>
+            <option_list/>
+            <pyramid>3</pyramid>
+            <num_of_core>7</num_of_core>
+            <use_gpu>1</use_gpu>
+            <match_threshold>16</match_threshold>
+            <epipolar_line_threashold>3</epipolar_line_threashold>
+            <optimize_focal>0</optimize_focal>
+            <tmp_dir>E:\uav\test\workspace\factory\camera_calibrate\tmp_dir</tmp_dir>
+            <output_dir>E:\uav\test\workspace\factory\camera_calibrate\output_dir</output_dir>
+            <AOI_file></AOI_file>
+        </option_list>
+        <image_list>
+            <image_item>
+                <id>1</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00637_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802185.245956059 2493524.64093884 353.72</pos>
+            </image_item>
+            <image_item>
+                <id>2</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00638_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802135.708523487 2493530.20687634 355.55</pos>
+            </image_item>
+            <image_item>
+                <id>3</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00639_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802085.067777125 2493539.51982688 357.76</pos>
+            </image_item>
+            <image_item>
+                <id>4</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00640_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802032.429357875 2493545.69018992 361.66</pos>
+            </image_item>
+            <image_item>
+                <id>5</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00641_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801979.873702845 2493547.65046127 361.36</pos>
+            </image_item>
+            <image_item>
+                <id>6</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00642_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801929.324563516 2493552.31045575 362.49</pos>
+            </image_item>
+            <image_item>
+                <id>7</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00643_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801880.773259331 2493560.11333654 358.81</pos>
+            </image_item>
+            <image_item>
+                <id>8</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00644_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801828.045901932 2493570.82703288 355.95</pos>
+            </image_item>
+            <image_item>
+                <id>9</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00645_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801778.593717688 2493572.07303 352.24</pos>
+            </image_item>
+            <image_item>
+                <id>10</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00646_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801727.069822186 2493573.94355928 361.72</pos>
+            </image_item>
+            <image_item>
+                <id>11</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00647_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801675.576399732 2493574.26311147 357.99</pos>
+            </image_item>
+            <image_item>
+                <id>12</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00648_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801626.940622423 2493586.38782405 357.1</pos>
+            </image_item>
+            <image_item>
+                <id>13</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00649_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801574.283193873 2493593.5568803 355.43</pos>
+            </image_item>
+            <image_item>
+                <id>14</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00700_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801576.736890773 2493468.46794989 352.35</pos>
+            </image_item>
+            <image_item>
+                <id>15</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00701_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801629.329530314 2493464.62274139 346.95</pos>
+            </image_item>
+            <image_item>
+                <id>16</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00702_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801679.878730108 2493459.96173991 345.98</pos>
+            </image_item>
+            <image_item>
+                <id>17</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00703_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801730.499737045 2493451.64462247 350.43</pos>
+            </image_item>
+            <image_item>
+                <id>18</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00704_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801780.124085187 2493441.64551568 351.09</pos>
+            </image_item>
+            <image_item>
+                <id>19</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00705_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801830.66259598 2493437.53897742 352.8</pos>
+            </image_item>
+            <image_item>
+                <id>20</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00706_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801883.259870702 2493433.4730242 354.81</pos>
+            </image_item>
+            <image_item>
+                <id>21</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00707_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801935.872428014 2493428.63167231 352.39</pos>
+            </image_item>
+            <image_item>
+                <id>22</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00708_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801988.502451997 2493422.90412452 353.34</pos>
+            </image_item>
+            <image_item>
+                <id>23</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00709_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802039.128233663 2493414.36639598 354.39</pos>
+            </image_item>
+            <image_item>
+                <id>24</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00710_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802088.605001748 2493411.90241333 352.04</pos>
+            </image_item>
+            <image_item>
+                <id>25</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00711_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802142.234087913 2493407.74675521 353.58</pos>
+            </image_item>
+            <image_item>
+                <id>26</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00712_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802192.836116985 2493400.42827967 355.82</pos>
+            </image_item>
+            <image_item>
+                <id>27</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00765_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802162.012946282 2493292.086608 358.3</pos>
+            </image_item>
+            <image_item>
+                <id>28</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00766_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802110.313743466 2493302.81969102 352.49</pos>
+            </image_item>
+            <image_item>
+                <id>29</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00767_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802057.728923503 2493306.22014691 350.91</pos>
+            </image_item>
+            <image_item>
+                <id>30</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00768_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802004.121312751 2493309.26817191 351.4</pos>
+            </image_item>
+            <image_item>
+                <id>31</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00769_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801953.59967061 2493312.48782214 353.15</pos>
+            </image_item>
+            <image_item>
+                <id>32</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00770_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801903.019333523 2493318.69913905 355.01</pos>
+            </image_item>
+            <image_item>
+                <id>33</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00771_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801851.377067792 2493326.55235499 354.49</pos>
+            </image_item>
+            <image_item>
+                <id>34</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00772_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801801.839274547 2493332.11942457 354.89</pos>
+            </image_item>
+            <image_item>
+                <id>35</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00773_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801749.22649608 2493336.96126684 353.61</pos>
+            </image_item>
+            <image_item>
+                <id>36</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00774_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801697.584437807 2493344.81498274 353.2</pos>
+            </image_item>
+            <image_item>
+                <id>37</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00775_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801643.920684922 2493350.7449405 352.78</pos>
+            </image_item>
+            <image_item>
+                <id>38</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00776_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801592.30267906 2493357.38023993 353.06</pos>
+            </image_item>
+            <image_item>
+                <id>39</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00777_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801542.810820441 2493360.62140135 354.67</pos>
+            </image_item>
+            <image_item>
+                <id>40</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00829_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801541.98034886 2493245.44361687 357.76</pos>
+            </image_item>
+            <image_item>
+                <id>41</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00830_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801592.591041396 2493237.67995689 354.2</pos>
+            </image_item>
+            <image_item>
+                <id>42</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00831_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801642.170263904 2493230.00706021 348.06</pos>
+            </image_item>
+            <image_item>
+                <id>43</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00832_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801692.787622283 2493221.91132928 348.11</pos>
+            </image_item>
+            <image_item>
+                <id>44</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00833_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801745.405092819 2493216.84765922 345.96</pos>
+            </image_item>
+            <image_item>
+                <id>45</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00834_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801795.931259319 2493213.40570265 348.52</pos>
+            </image_item>
+            <image_item>
+                <id>46</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00835_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801847.582541977 2493205.10907605 347.14</pos>
+            </image_item>
+            <image_item>
+                <id>47</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00836_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801899.257831649 2493195.59385595 352.98</pos>
+            </image_item>
+            <image_item>
+                <id>48</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00837_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801950.739569122 2493195.93968509 358.18</pos>
+            </image_item>
+            <image_item>
+                <id>49</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00838_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802000.277910701 2493190.37303903 361.53</pos>
+            </image_item>
+            <image_item>
+                <id>50</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00839_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802050.900095226 2493182.05685608 361.42</pos>
+            </image_item>
+            <image_item>
+                <id>51</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00840_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802099.476663656 2493173.03560663 359.36</pos>
+            </image_item>
+            <image_item>
+                <id>52</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00841_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802150.044572968 2493167.48965156 354.04</pos>
+            </image_item>
+            <image_item>
+                <id>53</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00896_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802119.237808174 2493058.26180874 354.9</pos>
+            </image_item>
+            <image_item>
+                <id>54</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00897_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802066.573804791 2493065.65100332 355.54</pos>
+            </image_item>
+            <image_item>
+                <id>55</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00898_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802018.040462497 2493072.45646265 355.76</pos>
+            </image_item>
+            <image_item>
+                <id>56</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00899_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801967.409256474 2493081.21597761 352.6</pos>
+            </image_item>
+            <image_item>
+                <id>57</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00900_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801916.96521102 2493080.44716175 354.02</pos>
+            </image_item>
+            <image_item>
+                <id>58</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00901_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801866.475507793 2493082.00523546 355.42</pos>
+            </image_item>
+            <image_item>
+                <id>59</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00902_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801817.811909544 2493095.45908974 355.88</pos>
+            </image_item>
+            <image_item>
+                <id>60</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00903_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801766.090720422 2493107.30133718 358.97</pos>
+            </image_item>
+            <image_item>
+                <id>61</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00904_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801716.680565104 2493106.33177704 353.36</pos>
+            </image_item>
+            <image_item>
+                <id>62</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00905_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801663.932331221 2493118.04336085 351.07</pos>
+            </image_item>
+            <image_item>
+                <id>63</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00906_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801617.343068727 2493130.76263093 352.75</pos>
+            </image_item>
+            <image_item>
+                <id>64</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00907_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801567.696197714 2493141.87032318 358.38</pos>
+            </image_item>
+            <image_item>
+                <id>65</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00908_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801515.185068756 2493141.50561196 358.29</pos>
+            </image_item>
+            <image_item>
+                <id>66</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00961_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801516.740924755 2493009.6380336 352.05</pos>
+            </image_item>
+            <image_item>
+                <id>67</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00962_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801566.314274509 2493002.29720345 354.76</pos>
+            </image_item>
+            <image_item>
+                <id>68</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00963_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801616.864922345 2492997.63582603 357.05</pos>
+            </image_item>
+            <image_item>
+                <id>69</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00964_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801668.475436911 2492991.44365729 359.43</pos>
+            </image_item>
+            <image_item>
+                <id>70</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00965_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801718.989240429 2492988.66614405 357.17</pos>
+            </image_item>
+            <image_item>
+                <id>71</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00966_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801767.598678628 2492977.9818576 357.93</pos>
+            </image_item>
+            <image_item>
+                <id>72</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00967_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801819.218084425 2492971.34699436 356.07</pos>
+            </image_item>
+            <image_item>
+                <id>73</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00968_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801871.771249491 2492969.60754576 355.76</pos>
+            </image_item>
+            <image_item>
+                <id>74</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00969_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801923.475610936 2492958.65196394 358.21</pos>
+            </image_item>
+            <image_item>
+                <id>75</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00970_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>801974.052773237 2492952.66217315 358.65</pos>
+            </image_item>
+            <image_item>
+                <id>76</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00971_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802024.519020332 2492952.32316365 358.25</pos>
+            </image_item>
+            <image_item>
+                <id>77</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00972_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802079.118091453 2492951.28962561 353.02</pos>
+            </image_item>
+            <image_item>
+                <id>78</id>
+                <path>E:\data\haiancheng\sport_center\input_data\img\DSC00973_DxO.jpg</path>
+                <focal_length>7692.31</focal_length>
+                <pos>802126.657295646 2492942.69134453 351.61</pos>
+            </image_item>
+        </image_list>
+    </module_item>
+</module_list>
