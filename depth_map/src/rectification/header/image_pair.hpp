@@ -41,7 +41,15 @@ namespace rect
 		// validates the parameters of image pair
 		// 0 successful; otherwise, failed.
 		int image_pair_validation();
+		
+		// compare the current value and the best two
+		// -1 smaller than both, 0 second best, 1 best
+		inline int compare(double value, double best_value, double second_best_value);
 
+		// compare the current value and the best two and reset the value if needed
+		inline void compare(double value, int id,
+			double & best_value, int & best_id,
+			double & second_best_value, int & second_best_id);
 
 		// member variables
 	protected:

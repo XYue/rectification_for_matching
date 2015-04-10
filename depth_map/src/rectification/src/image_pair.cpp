@@ -220,7 +220,7 @@ error0:
 			bool is_vertical_rectified = false;
 			bool output_with_colour = true;
 			bool output_with_world_coor = true;
-			double coarse_scale = 1./*1./8.*/;
+			double coarse_scale = 1./8./*8.*/;
 			std::vector<int> coarse_match_map;	
 			int coarse_w = 0;
 			int coarse_h = 0;
@@ -249,7 +249,7 @@ error0:
 			double Z = 1. / sqrt(2. * pi * sigma_2);
 			double focal_l = _left_image._CamMatrix.at<double>(0,0);
 			double baseline_len = sqrt(norm(_left_image._C - _right_image._C));
-			double daisy_match_threshold = 1.;
+			double daisy_match_threshold = 0.8;
 			int best_match_id_dist_threshold = 2;
 
 			// recitify image pair
@@ -334,8 +334,8 @@ error0:
 				cv::Mat right = cv::imread(rect_r);
 				int ori_w = left.cols;
 				int ori_h = left.rows;
-				coarse_w = left.cols * coarse_scale;
-				coarse_h = left.rows * coarse_scale;				
+				coarse_w = ceil(left.cols * coarse_scale);
+				coarse_h = ceil(left.rows * coarse_scale);				
 				cv::Size new_size(coarse_w, coarse_h);
 				cv::Mat left_coarse(new_size, left.type()), right_coarse(new_size, right.type());
 				cv::resize(left, left_coarse, new_size);
@@ -407,6 +407,8 @@ error0:
 							float* thor_l = NULL;
 							desc_l->get_descriptor(i_yl,i_xl,thor_l);
 							int dim_num = is_vertical_rectified ? h : w;
+							std::vector<double> daisy_matching;
+							daisy_matching.resize(dim_num,-1);
 
 #ifdef USE_OPENMP
 							omp_lock_t writelock;
@@ -440,42 +442,97 @@ error0:
 									diff += (thor_l[i_d] - thor_r[i_d]) * (thor_l[i_d] - thor_r[i_d]);
 								}
 
-								if (diff < best_match)
-								{
-#ifdef USE_OPENMP
-									omp_set_lock(&writelock);			
-#endif // USE_OPENMP
+// 								if (diff < best_match)
+// 								{
+// #ifdef USE_OPENMP
+// 									omp_set_lock(&writelock);			
+// #endif // USE_OPENMP
+// 
+// 									second_best_match = best_match;
+// 									sec_best_match_id = best_match_id;
+// 
+// 									best_match = diff;
+// 									best_match_id = i_dim;
+// 
+// #ifdef USE_OPENMP
+// 									omp_unset_lock(&writelock);			
+// #endif // USE_OPENMP
+// 								} else if (diff < second_best_match) {
+// #ifdef USE_OPENMP
+// 									omp_set_lock(&writelock);			
+// #endif // USE_OPENMP
+// 									second_best_match = diff;
+// 									sec_best_match_id = i_dim;
+// #ifdef USE_OPENMP
+// 									omp_unset_lock(&writelock);			
+// #endif // USE_OPENMP
+// 								}
 
-									second_best_match = best_match;
-									sec_best_match_id = best_match_id;
-
-									best_match = diff;
-									best_match_id = i_dim;
 
 #ifdef USE_OPENMP
-									omp_unset_lock(&writelock);			
+								omp_set_lock(&writelock);			
 #endif // USE_OPENMP
-								} else if (diff < second_best_match) {
+								// record matching score
+								daisy_matching[i_dim] = diff;
 #ifdef USE_OPENMP
-									omp_set_lock(&writelock);			
+								omp_unset_lock(&writelock);			
 #endif // USE_OPENMP
-									second_best_match = diff;
-									sec_best_match_id = i_dim;
-#ifdef USE_OPENMP
-									omp_unset_lock(&writelock);			
-#endif // USE_OPENMP
-								}
 							}
 #ifdef USE_OPENMP
 							omp_destroy_lock(&writelock);	
 #endif // USE_OPENMP
 
+
+							// calculate the gradient of scores choose the best two
+							double min_diff = std::numeric_limits<double>::max();
+							int num_matching = daisy_matching.size();
+							if (num_matching > 1)
+							{
+								double previous = daisy_matching[1] - daisy_matching[0];
+								for (int i_sc = 1; i_sc < num_matching; ++i_sc)
+								{
+									const double & score = daisy_matching[i_sc];
+									int curr_id = i_sc;
+
+									// if it's the last score
+									if (i_sc == num_matching - 1)
+									{
+										if (score > 0.)
+											compare(score, curr_id,
+											best_match, best_match_id,
+											second_best_match, sec_best_match_id);
+										continue;
+									}
+
+									double flag = daisy_matching[i_sc + 1] - score;
+									if (score > 0. &&
+										( (previous <= 0.  && flag > 0.) ||
+										(previous == 0. && flag == 0.)) )
+									{
+										compare(score, curr_id,
+											best_match, best_match_id,
+											second_best_match, sec_best_match_id);
+									}
+
+									previous = flag;
+
+									if (score > 0.)
+									{
+										min_diff = min_diff < score ? min_diff : score;
+									}
+								}
+							} else if ( num_matching == 1 ) {
+								best_match = daisy_matching[0];
+								best_match_id = 0;
+							}
+
+
 							// disparity
-							if (best_match < daisy_match_threshold)
+							if ( best_match > 0. && best_match < daisy_match_threshold / coarse_scale)
 							{
 								double ratio = best_match / second_best_match;
 								if (ratio <= 0.8 ||
-									abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold)
+									/*abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold*/0)
 								{
 									coarse_match_map[xy_l(1) * w + xy_l(0)] = best_match_id;
 								}
@@ -497,6 +554,7 @@ error0:
 
 
 			// generate dense point cloud
+//#undef USE_OPENMP
 			{
 				int w,h;
 				uchar* im_l = NULL;
@@ -585,6 +643,8 @@ error0:
 							int end_dim = coarse_mapping_id >= 0 ?
 								static_cast<double>(coarse_mapping_id + 2) / coarse_scale : dim_num;
 							end_dim = end_dim < dim_num ? end_dim : dim_num;
+							std::vector<double> daisy_matching;
+							daisy_matching.resize(end_dim - start_dim,-1);
 
 #ifdef USE_OPENMP
 							omp_lock_t writelock;
@@ -617,42 +677,96 @@ error0:
 									diff += (thor_l[i_d] - thor_r[i_d]) * (thor_l[i_d] - thor_r[i_d]);
 								}
 
-								if (diff < best_match)
-								{
-#ifdef USE_OPENMP
-									omp_set_lock(&writelock);			
-#endif // USE_OPENMP
+// 								if (diff < best_match)
+// 								{
+// #ifdef USE_OPENMP
+// 									omp_set_lock(&writelock);			
+// #endif // USE_OPENMP
+// 
+// 									second_best_match = best_match;
+// 									sec_best_match_id = best_match_id;
+// 
+// 									best_match = diff;
+// 									best_match_id = i_dim;
+// 
+// #ifdef USE_OPENMP
+// 									omp_unset_lock(&writelock);			
+// #endif // USE_OPENMP
+// 								} else if (diff < second_best_match) {
+// #ifdef USE_OPENMP
+// 									omp_set_lock(&writelock);			
+// #endif // USE_OPENMP
+// 									second_best_match = diff;
+// 									sec_best_match_id = i_dim;
+// #ifdef USE_OPENMP
+// 									omp_unset_lock(&writelock);			
+// #endif // USE_OPENMP
+// 								}
 
-									second_best_match = best_match;
-									sec_best_match_id = best_match_id;
-
-									best_match = diff;
-									best_match_id = i_dim;
-
 #ifdef USE_OPENMP
-									omp_unset_lock(&writelock);			
+								omp_set_lock(&writelock);			
 #endif // USE_OPENMP
-								} else if (diff < second_best_match) {
+								// record matching score
+								daisy_matching[i_dim - start_dim] = diff;
 #ifdef USE_OPENMP
-									omp_set_lock(&writelock);			
+								omp_unset_lock(&writelock);			
 #endif // USE_OPENMP
-									second_best_match = diff;
-									sec_best_match_id = i_dim;
-#ifdef USE_OPENMP
-									omp_unset_lock(&writelock);			
-#endif // USE_OPENMP
-								}
 							}
 #ifdef USE_OPENMP
 							omp_destroy_lock(&writelock);	
 #endif // USE_OPENMP
 
+
+							// calculate the gradient of scores choose the best two
+							double min_diff = std::numeric_limits<double>::max();
+							int num_matching = daisy_matching.size();
+							if (num_matching > 1)
+							{
+								double previous = daisy_matching[1] - daisy_matching[0];
+								for (int i_sc = 1; i_sc < num_matching; ++i_sc)
+								{
+									const double & score = daisy_matching[i_sc];
+									int curr_id = i_sc + start_dim;
+
+									// if it's the last score
+									if (i_sc == num_matching - 1)
+									{
+										if (score > 0.)
+											compare(score, curr_id,
+											best_match, best_match_id,
+											second_best_match, sec_best_match_id);
+										continue;
+									}
+
+									double flag = daisy_matching[i_sc + 1] - score;
+									if (score > 0. &&
+										( (previous <= 0.  && flag > 0.) ||
+										(previous == 0. && flag == 0.)) )
+									{
+										compare(score, curr_id,
+											best_match, best_match_id,
+											second_best_match, sec_best_match_id);
+									}
+
+									previous = flag;
+
+									if (score > 0.)
+									{
+										min_diff = min_diff < score ? min_diff : score;
+									}
+								}
+							} else if ( num_matching == 1 ) {
+								best_match = daisy_matching[0];
+								best_match_id = 0;
+							}
+
+
 							// disparity
-							if (best_match < daisy_match_threshold)
+							if ( best_match > 0. && best_match < daisy_match_threshold)
 							{
 								double ratio = best_match / second_best_match;
 								if (ratio <= 0.8 ||
-									abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold)
+								0	/*abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold*/)
 								{
 									double disparity = is_vertical_rectified ?
 										best_match_id - xy_l(1) : best_match_id - xy_l(0);
@@ -705,6 +819,32 @@ error0:
 error0:
 
 		return ret;
+	}
+
+	int ImagePair::compare( double value, double best_value, double second_best_value )
+	{
+		if (value < best_value) return 1;
+		else if (value < second_best_value) return 0;
+		else return -1;
+	}
+
+	void ImagePair::compare( double value, int id,
+		double & best_value, int & best_id,
+		double & second_best_value, int & second_best_id )
+	{
+		int compare_ret = compare(value, best_value, second_best_value);
+
+		if (compare_ret == 0)
+		{
+			second_best_value = value;
+			second_best_id = id;
+		} else if ( compare_ret == 1 ){
+			second_best_value = best_value;
+			second_best_id = best_id;
+
+			best_value = value;
+			best_id = id;
+		}
 	}
 
 }
