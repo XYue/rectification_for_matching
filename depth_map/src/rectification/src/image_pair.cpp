@@ -224,6 +224,7 @@ error0:
 			std::vector<int> coarse_match_map;	
 			int coarse_w = 0;
 			int coarse_h = 0;
+			int num_disp = 100;
 
 			if (output_with_world_coor)
 			{
@@ -252,7 +253,7 @@ error0:
 			double daisy_match_threshold = 0.8;
 			int best_match_id_dist_threshold = 2;
 
-			// recitify image pair
+			// rectify image pair
 			{
 				cv::Mat left, right;
 				if (_load_image_in_advanced)
@@ -577,9 +578,9 @@ error0:
 					desc_l->verbose( /*verbose_level*/0 ); // 0,1,2,3 -> how much output do you want while running
 					desc_l->set_parameters(rad, radq, thq, histq); // default values are 15,3,8,8
 					desc_l->initialize_single_descriptor_mode();
-					desc_l->compute_descriptors(); // precompute all the descriptors (NOT NORMALIZED!)
+					//desc_l->compute_descriptors(); // precompute all the descriptors (NOT NORMALIZED!)
 					// the descriptors are not normalized yet
-					desc_l->normalize_descriptors();
+					//desc_l->normalize_descriptors();
 
 					if (kutility::load_gray_image (rect_r, im_r, h, w))
 						break;
@@ -587,9 +588,9 @@ error0:
 					desc_r->verbose( /*verbose_level*/0 ); // 0,1,2,3 -> how much output do you want while running
 					desc_r->set_parameters(rad, radq, thq, histq); // default values are 15,3,8,8
 					desc_r->initialize_single_descriptor_mode();
-					desc_r->compute_descriptors(); // precompute all the descriptors (NOT NORMALIZED!)
+					//desc_r->compute_descriptors(); // precompute all the descriptors (NOT NORMALIZED!)
 					// the descriptors are not normalized yet
-					desc_r->normalize_descriptors();
+					//desc_r->normalize_descriptors();
 
 
 					std::ofstream pc_file(pc_filename);
@@ -628,54 +629,69 @@ error0:
 							}
 
 
+							double orientation = is_vertical_rectified ? 0 : 0;
 							int num_desc = desc_l->descriptor_size();
 							double best_match = std::numeric_limits<double>::max();
-							int best_match_id = -1;
+							double best_match_id = -1;
 							double second_best_match = std::numeric_limits<double>::max();
-							int sec_best_match_id = -1;
+							double sec_best_match_id = -1;
 
-							float* thor_l = NULL;
-							desc_l->get_descriptor(i_yl,i_xl,thor_l);
+// 							float* thor_l = NULL;
+// 							desc_l->get_descriptor(i_yl,i_xl,thor_l);
+							
+
+							float* thor_l = new float[num_desc];
+							desc_l->get_descriptor(i_yl, i_xl, orientation,thor_l);
+
 							int dim_num = is_vertical_rectified ? h : w;
-							int start_dim = coarse_mapping_id >= 0 ? 
+							double start_dim = coarse_mapping_id >= 0 ? 
 								static_cast<double>(coarse_mapping_id - 1) / coarse_scale : 0;
 							start_dim = start_dim >=0 ? start_dim : 0;
-							int end_dim = coarse_mapping_id >= 0 ?
+							double end_dim = coarse_mapping_id >= 0 ?
 								static_cast<double>(coarse_mapping_id + 2) / coarse_scale : dim_num;
 							end_dim = end_dim < dim_num ? end_dim : dim_num;
 							std::vector<double> daisy_matching;
-							daisy_matching.resize(end_dim - start_dim,-1);
+							//daisy_matching.resize(end_dim - start_dim,-1);
+							daisy_matching.resize(num_disp,-1);
+							double disp_step = (end_dim - start_dim)/static_cast<double>(num_disp);
 
 #ifdef USE_OPENMP
 							omp_lock_t writelock;
 							omp_init_lock(&writelock);
 #pragma omp parallel for							
 #endif // USE_OPENMP
-							for (int i_dim = start_dim; i_dim < end_dim; ++i_dim)
+							//for (int i_dim = start_dim; i_dim < end_dim; ++i_dim)
+							for (int i_disp = 0; i_disp < num_disp; ++i_disp)
 							{
-								int xr = is_vertical_rectified ? xy_l(0) : i_dim;
-								int yr = is_vertical_rectified ? i_dim : xy_l(1);
+								double curr_pos = start_dim + static_cast<double>(i_disp) * disp_step;
+								double xr = is_vertical_rectified ? xy_l(0) : curr_pos;
+								double yr = is_vertical_rectified ? curr_pos : xy_l(1);
 
-								Eigen::Vector3d xy_r(xr, yr, 1);
-								xy_r = Rr.transpose() * Kr_n.inverse() * xy_r;
-								xy_r /= xy_r(2);
-								xy_r = Kr * xy_r;
+								Eigen::Vector3d xy_r_valid(xr, yr, 1);
+								xy_r_valid = Rr.transpose() * Kr_n.inverse() * xy_r_valid;
+								xy_r_valid /= xy_r_valid(2);
+								xy_r_valid = Kr * xy_r_valid;
 
-								if (xy_r(0) < 0. || xy_r(0) >= w ||
-									xy_r(1) < 0. || xy_r(1) >= h)
+								if (xy_r_valid(0) < 0. || xy_r_valid(0) >= w ||
+									xy_r_valid(1) < 0. || xy_r_valid(1) >= h)
 								{
 									continue;
 								}
 
 
-								float* thor_r = NULL;
-								desc_r->get_descriptor(yr,xr,thor_r);
+// 								float* thor_r = NULL;
+// 								desc_r->get_descriptor(yr,xr,thor_r);
+
+								float* thor_r = new float[/*desc_r->descriptor_size()*/num_desc];
+								desc_r->get_descriptor(yr, xr, orientation,thor_r);
 
 								double diff = 0.;
 								for (int i_d = 0; i_d < num_desc; ++i_d)
 								{
 									diff += (thor_l[i_d] - thor_r[i_d]) * (thor_l[i_d] - thor_r[i_d]);
 								}
+
+								if (thor_r) delete thor_r;
 
 // 								if (diff < best_match)
 // 								{
@@ -707,7 +723,8 @@ error0:
 								omp_set_lock(&writelock);			
 #endif // USE_OPENMP
 								// record matching score
-								daisy_matching[i_dim - start_dim] = diff;
+								//daisy_matching[i_dim - start_dim] = diff;
+								daisy_matching[i_disp] = diff;
 #ifdef USE_OPENMP
 								omp_unset_lock(&writelock);			
 #endif // USE_OPENMP
@@ -715,6 +732,8 @@ error0:
 #ifdef USE_OPENMP
 							omp_destroy_lock(&writelock);	
 #endif // USE_OPENMP
+
+							if (thor_l) delete [] thor_l;
 
 
 							// calculate the gradient of scores choose the best two
@@ -726,13 +745,14 @@ error0:
 								for (int i_sc = 1; i_sc < num_matching; ++i_sc)
 								{
 									const double & score = daisy_matching[i_sc];
-									int curr_id = i_sc + start_dim;
+									//int curr_id = i_sc + start_dim;
+									double curr_pos = start_dim + static_cast<double>(i_sc) * disp_step;
 
 									// if it's the last score
 									if (i_sc == num_matching - 1)
 									{
 										if (score > 0.)
-											compare(score, curr_id,
+											compare(score, curr_pos,
 											best_match, best_match_id,
 											second_best_match, sec_best_match_id);
 										continue;
@@ -743,7 +763,7 @@ error0:
 										( (previous <= 0.  && flag > 0.) ||
 										(previous == 0. && flag == 0.)) )
 									{
-										compare(score, curr_id,
+										compare(score, curr_pos,
 											best_match, best_match_id,
 											second_best_match, sec_best_match_id);
 									}
@@ -764,12 +784,17 @@ error0:
 							// disparity
 							if ( best_match > 0. && best_match < daisy_match_threshold)
 							{
+// 								if (best_match_id >= 0 && sec_best_match_id >= 0 && 
+// 									abs(best_match_id - sec_best_match_id) <= rad )
+// 									continue;
+
 								double ratio = best_match / second_best_match;
-								if (ratio <= 0.8 ||
-								0	/*abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold*/)
+								if ( ratio <= 0.8 ||
+								0	/*abs(best_match_id - sec_best_match_id) < best_match_id_dist_threshold*/) 
 								{
 									double disparity = is_vertical_rectified ?
-										best_match_id - xy_l(1) : best_match_id - xy_l(0);
+										best_match_id - static_cast<double>(xy_l(1)) :
+										best_match_id - static_cast<double>(xy_l(0));
 
 									disparity = abs(disparity);
 									if (disparity == 0.) continue;
@@ -844,6 +869,25 @@ error0:
 
 			best_value = value;
 			best_id = id;
+		}
+	}
+
+	void ImagePair::compare( double value, double pos,
+		double & best_value, double & best_pos,
+		double & second_best_value, double & second_best_pos )
+	{
+		int compare_ret = compare(value, best_value, second_best_value);
+
+		if (compare_ret == 0)
+		{
+			second_best_value = value;
+			second_best_pos = pos;
+		} else if ( compare_ret == 1 ){
+			second_best_value = best_value;
+			second_best_pos = best_pos;
+
+			best_value = value;
+			best_pos = pos;
 		}
 	}
 

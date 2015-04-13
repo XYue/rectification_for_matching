@@ -51,6 +51,10 @@ namespace rect
 			double & best_value, int & best_id,
 			double & second_best_value, int & second_best_id);
 
+		inline void compare(double value, double pos,
+			double & best_value, double & best_pos,
+			double & second_best_value, double & second_best_pos);
+
 		// member variables
 	protected:
 		// load image into cv::Mat in advanced
